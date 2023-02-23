@@ -47,10 +47,14 @@ def getExactAnswer(result, question):
     return answer
 
 
-# pages = pageSplit("Confluence.pdf")
-# faiss_index = indexing(pages)
-# saveIndex(faiss_index, "index")
-faiss_index = loadIndex("index")
-result = searchText(faiss_index, "What is the purpose of the audit?")
-answer = getExactAnswer(result, "What is the purpose of the audit?")
-print(answer)
+def pdfScan(path):
+    pages = pageSplit(path)
+    faiss_index = indexing(pages)
+    saveIndex(faiss_index, "index")
+
+
+def askQuestion(question):
+    faiss_index = loadIndex("index")
+    result = searchText(faiss_index, question)
+    answer = getExactAnswer(result, question)
+    return answer
