@@ -14,4 +14,13 @@ def indexing(pages):
 def saveIndex(faiss_index, path):
     faiss_index.save_local(path)
 
+def loadIndex(path):
+    faiss_index = FAISS.load_local(path, OpenAIEmbeddings())
+    return faiss_index
 
+def searchText(faiss_index, question):
+    docs = faiss_index.similarity_search(question, k=2)
+    results = ""
+    for doc in docs:
+        results+=doc.page_content
+    return results
