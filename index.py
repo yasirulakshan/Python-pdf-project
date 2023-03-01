@@ -41,7 +41,7 @@ def searchText(faiss_index, question):
 
 
 def getExactAnswer(result, question):
-    prompt = """Answer the question as truthfully as possible using the provided text, and if the answer is not contained within the text below, say "I don't know"\n""" + \
+    prompt = """You are an AI assistant in a conversation with a human. \n Answer their questions as truthfully as possible using the provided text. If the answer is not contained within the text, say "Hmm, I am not sure". """ + \
         result + "\n\n Q:" + question + "\n"
     answer = openai.Completion.create(
         prompt=prompt,
