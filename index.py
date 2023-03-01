@@ -3,8 +3,10 @@ from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
 import openai
 from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 
 # openai.api_key = os.getenv("OPENAI_API_KEY")
 # os.environ["OPENAI_API_KEY"] = "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"
@@ -39,12 +41,13 @@ def searchText(faiss_index, question):
 
 
 def getExactAnswer(result, question):
-    prompt = """Answer the question as truthfully as possible using the provided text, and if the answer is not contained within the text below, say "I don't know\n""" + result + "\n\n" + question + "\n"
+    prompt = """Answer the question as truthfully as possible using the provided text, and if the answer is not contained within the text below, say "I don't know"\n""" + \
+        result + "\n\n Q:" + question + "\n"
     answer = openai.Completion.create(
         prompt=prompt,
-        temperature=0.7,
+        temperature=0.1,
         max_tokens=300,
-        model="text-ada-001"
+        model="text-babbage-001"
     )["choices"][0]["text"].strip(" \n")
     return answer
 
@@ -55,7 +58,7 @@ def pdfScan(path):
     saveIndex(faiss_index, "index")
 
 
-@app.route("/askQuestion")
+@app.route("/askQuestion", methods=["POST"])
 def askQuestion():
     question = request.json["question"]
     faiss_index = loadIndex("index")
