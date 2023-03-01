@@ -1,11 +1,13 @@
 from langchain.document_loaders import PagedPDFSplitter
 from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
-import os
 import openai
+from flask import Flask, request
+
+app = Flask(__name__)
 
 # openai.api_key = os.getenv("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = "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"
+# os.environ["OPENAI_API_KEY"] = "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"
 
 
 def pageSplit(path):
@@ -53,7 +55,9 @@ def pdfScan(path):
     saveIndex(faiss_index, "index")
 
 
-def askQuestion(question):
+@app.route("/askQuestion")
+def askQuestion():
+    question = request.json["question"]
     faiss_index = loadIndex("index")
     result = searchText(faiss_index, question)
     answer = getExactAnswer(result, question)
