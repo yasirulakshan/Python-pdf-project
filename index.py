@@ -45,7 +45,7 @@ def getExactAnswer(result, question):
         result + "\n\n Q:" + question + "\n"
     answer = openai.Completion.create(
         prompt=prompt,
-        temperature=0.1,
+        temperature=0.7,
         max_tokens=300,
         model="text-babbage-001"
     )["choices"][0]["text"].strip(" \n")
