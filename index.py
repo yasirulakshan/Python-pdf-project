@@ -65,3 +65,8 @@ def askQuestion():
     result = searchText(faiss_index, question)
     answer = getExactAnswer(result, question)
     return answer
+
+
+@app.route("/")
+def sayHello():
+    return "Hello World"
