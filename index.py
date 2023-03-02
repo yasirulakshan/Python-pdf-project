@@ -47,7 +47,7 @@ def getExactAnswer(result, question):
         prompt=prompt,
         temperature=0.7,
         max_tokens=300,
-        model="text-babbage-001",
+        model="text-davinci-003",
         top_p=1,
     )["choices"][0]["text"].strip(" \n")
     return answer
