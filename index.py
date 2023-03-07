@@ -8,9 +8,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-# os.environ["OPENAI_API_KEY"] = "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"
-
 
 def pageSplit(path):
     loader = PagedPDFSplitter(path)
