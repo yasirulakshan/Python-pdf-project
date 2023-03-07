@@ -52,7 +52,7 @@ def getExactAnswer(result, question):
 
 @app.route("/train")
 def pdfScan():
-    pages = pageSplit("./Rambase.pdf")
+    pages = pageSplit("./Sales.pdf")
     faiss_index = indexing(pages)
     saveIndex(faiss_index, "index")
     return "Indexing Done"
