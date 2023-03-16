@@ -8,6 +8,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
+
 # openai.api_key = os.getenv("OPENAI_API_KEY")
 # os.environ["OPENAI_API_KEY"] = "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"
 
@@ -30,6 +31,9 @@ def saveIndex(faiss_index, path):
 def loadIndex(path):
     faiss_index = FAISS.load_local(path, OpenAIEmbeddings())
     return faiss_index
+
+
+faiss_index = loadIndex("index")
 
 
 def searchText(faiss_index, question):
@@ -62,7 +66,6 @@ def pdfScan(path):
 @app.route("/askQuestion", methods=["POST"])
 def askQuestion():
     question = request.json["question"]
-    faiss_index = loadIndex("index")
     result = searchText(faiss_index, question)
     answer = getExactAnswer(result, question)
     return answer
