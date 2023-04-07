@@ -64,6 +64,7 @@ def askQuestion():
     faiss_index = loadIndex("index")
     result = searchText(faiss_index, question)
     answer = getExactAnswer(result, question)
+    answer = answer.lstrip("A: ")
     return answer
 
 
