@@ -1,32 +1,15 @@
-from langchain.document_loaders import PagedPDFSplitter
-from langchain.vectorstores import FAISS
-from langchain.embeddings.openai import OpenAIEmbeddings
+# Training Process
+# Input : PDF file
+# Spliting Strategy : Developer has a choice to split the pages as developer requirement
+# Indexing Process : Indexing the pages using FAISS
+# Save Index : Save the index in local storage
+
 import openai
 from flask import Flask, request
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-
-
-def pageSplit(path):
-    loader = PagedPDFSplitter(path)
-    pages = loader.load_and_split()
-    return pages
-
-
-def indexing(pages):
-    faiss_index = FAISS.from_documents(pages, OpenAIEmbeddings())
-    return faiss_index
-
-
-def saveIndex(faiss_index, path):
-    faiss_index.save_local(path)
-
-
-def loadIndex(path):
-    faiss_index = FAISS.load_local(path, OpenAIEmbeddings())
-    return faiss_index
 
 
 def searchText(faiss_index, question):
