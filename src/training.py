@@ -1,6 +1,7 @@
 from langchain.document_loaders import PagedPDFSplitter
 from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
+import os
 
 
 def pageSplit(path):
@@ -23,8 +24,9 @@ def loadIndex(path):
     return faiss_index
 
 
-def train():
-    pages = pageSplit("./99x-awardsv2.pdf")
+def train(file):
+    pages = pageSplit(file)
     faiss_index = indexing(pages)
     saveIndex(faiss_index, "index")
+    os.remove(file)
     return "Indexing Done"

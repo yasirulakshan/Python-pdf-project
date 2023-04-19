@@ -14,9 +14,11 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
 
-@app.route("/train")
+@app.route("/train", methods=["POST"])
 def pdfScan():
-    out = train()
+    file = request.files["file"]
+    file.save(file.filename)
+    out = train(file.filename)
     return out
 
 
