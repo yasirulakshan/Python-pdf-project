@@ -6,6 +6,11 @@ app = Flask(__name__)
 
 CORS(app, supports_credentials=True)
 
+@app.route("/")
+def status():
+    return {
+        'status': 'Server is running.'
+    }
 
 @app.route("/train")
 def pdfScan():
