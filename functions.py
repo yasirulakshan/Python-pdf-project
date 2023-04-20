@@ -44,10 +44,10 @@ def indexing(pages):
 
 def searchText(question):
     milvus = Milvus(
-        collection_name='c3acd1f1f66b34d739cb0c9ca31b12d65',
+        collection_name='c95eb9dd22c874eeaa7464fd8a8122a87',
         connection_args={"host": "127.0.0.1", "port": "19530"},
         embedding_function=OpenAIEmbeddings(openai_api_key=open_ai_api_key),
-        text_field='c95eb9dd22c874eeaa7464fd8a8122a87'
+        text_field='ccc64eacbecb941469e3ff7951051ef09'
     )
     docs = milvus.similarity_search(question, k=2)
     results = ''
