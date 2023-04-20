@@ -1,0 +1,29 @@
+---
+- name: Install Docker and create directory
+  hosts: localhost
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Create directory
+      file:
+        path: /opt/milvus
+        state: directory
+
+    - name: Get Milvus Docker File
+      command: wget https://github.com/milvus-io/milvus/releases/download/v2.2.6/milvus-standalone-docker-compose.yml -O /opt/milvus/docker-compose.yml
+
+    - name: Run Milvus
+      shell: |
+              cd /opt/milvus/
+              sudo docker-compose up -d
