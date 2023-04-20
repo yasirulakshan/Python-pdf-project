@@ -47,7 +47,7 @@ def searchText(question):
         collection_name='c3acd1f1f66b34d739cb0c9ca31b12d65',
         connection_args={"host": "127.0.0.1", "port": "19530"},
         embedding_function=OpenAIEmbeddings(openai_api_key=open_ai_api_key),
-        text_field='c4165f70d58b049d0b866af3e4671a6e1'
+        text_field='c95eb9dd22c874eeaa7464fd8a8122a87'
     )
     docs = milvus.similarity_search(question, k=2)
     results = ''
