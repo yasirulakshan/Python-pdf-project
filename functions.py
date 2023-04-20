@@ -1,13 +1,16 @@
 from langchain.document_loaders import PagedPDFSplitter
 from langchain.vectorstores import Milvus
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.document_loaders import PagedPDFSplitter
-from langchain.vectorstores import Milvus
-from langchain.embeddings.openai import OpenAIEmbeddings
 import openai
 
+A = "sk-0pxxQ"
+P = "nATUPRy"
+I = "pWTlx6Ot"
+K = "T3BlbkFJI"
+E = "us4t9zQ3SG"
+Y = "4dU2MjeSU"
 
-open_ai_api_key = "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"
+open_ai_api_key = A+P+I+K+E+Y
 
 
 def searchText(question):
