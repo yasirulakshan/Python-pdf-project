@@ -1,10 +1,15 @@
 from flask import Flask, request
 from flask_cors import CORS
-import functions
+from controllers.trainingController import trainingController
+from controllers.searchController import searchController
 
 app = Flask(__name__)
 
 CORS(app, supports_credentials=True)
+
+
+tc = trainingController()
+sc = searchController()
 
 @app.route("/")
 def status():
@@ -14,8 +19,8 @@ def status():
 
 @app.route("/train")
 def pdfScan():
-    pages = functions.pageSplit("./99x-awardsv2.pdf")
-    functions.indexing(pages)
+    pages = tc.pageSplit("./data/99x-awardsv2.pdf")
+    tc.indexPages(pages)
     return {
         'status': 'Indexing Completed.'
     }
@@ -24,8 +29,8 @@ def pdfScan():
 @app.route("/ask-question", methods=["POST"])
 def askQuestion():
     question = request.json["question"]
-    result = functions.searchText(question)
-    answer = functions.getExactAnswer(result, question)
+    result = sc.searchText(question)
+    answer = sc.getExactAnswer(result, question)
     return answer
 
 
