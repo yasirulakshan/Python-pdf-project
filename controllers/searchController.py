@@ -13,10 +13,10 @@ class searchController:
 
     def search(self,text):
         milvus = Milvus(
-            collection_name='c3acd1f1f66b34d739cb0c9ca31b12d65',
+            collection_name='cb79ac1c1fc664b97a26e80e39b802182',
             connection_args={"host": "127.0.0.1", "port": "19530"},
-            embedding_function=OpenAIEmbeddings(openai_api_key=self.dC.getOpenAIAPIKey()),
-            text_field='c4165f70d58b049d0b866af3e4671a6e1'
+            embedding_function=OpenAIEmbeddings(openai_api_key=self.dc.getOpenAIAPIKey()),
+            text_field='c2067f806e2fe4aee9eefc470884e94bb'
         )
         docs = milvus.similarity_search(text, k=2)
         results = ''
@@ -25,13 +25,12 @@ class searchController:
         return results
 
 
-    def getAnswer(self,result, question):
+    def getAnswer(self, question):
 
         information = self.search(question)
-        
 
         result = openai.Completion.create(
-            prompt= dC.getConstructedChat(information, question),
+            prompt= self.dc.getConstructedChat(information, question),
             temperature=0.7,
             max_tokens=600,
             model="text-davinci-003",

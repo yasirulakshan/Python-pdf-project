@@ -14,23 +14,21 @@ sc = searchController()
 @app.route("/")
 def status():
     return {
-        'status': 'Server is running.'
+        'status': 'Server is up and running.'
     }
 
-@app.route("/train")
-def pdfScan():
-    pages = tc.pageSplit("./data/99x-awardsv2.pdf")
-    tc.indexPages(pages)
+@app.route("/upload", methods=["POST"])
+def upload():
+    tc.indexPages(request.files['file'])
     return {
         'status': 'Indexing Completed.'
     }
 
 
-@app.route("/ask-question", methods=["POST"])
+@app.route("/ask", methods=["POST"])
 def askQuestion():
     question = request.json["question"]
-    result = sc.searchText(question)
-    answer = sc.getExactAnswer(result, question)
+    answer = sc.getAnswer(question)
     return answer
 
 

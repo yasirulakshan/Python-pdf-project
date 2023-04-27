@@ -8,7 +8,6 @@ class dataController:
 
     open_ai_api_key = A+P+I+K+E+Y
 
-
     scenario = "You are an AI assistant built to help people." + "You are currently in a conversation with a human." + "To answer their questions, you are provided with necessary information in the Information Section below." + "If the answer is not found within the provided information, say \"I don\'t have that knowledge.\"" + "\n\n" + "Information Section:" + "\n\n"
 
     def getOpenAIAPIKey(self):
