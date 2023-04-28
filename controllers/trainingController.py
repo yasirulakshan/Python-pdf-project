@@ -41,9 +41,6 @@ class trainingController:
         milvus_db = Milvus.from_documents(
             documents=pages,
             embedding=OpenAIEmbeddings(openai_api_key=self.dc.getOpenAIAPIKey()),
-            #connection_args={"host": "127.0.0.1", "port": "19530"},
         )
-
-        
 
         return milvus_db

@@ -1,3 +1,6 @@
+import json
+
+
 class dataController:
     A = "sk-0pxxQ"
     P = "nATUPRy"
@@ -15,3 +18,17 @@ class dataController:
 
     def getConstructedChat(self,information, question):
         return self.scenario + information + '\n\nQ:' + question
+
+    def writeToInfoJSON(self,collectionName):
+        jsonData = {}
+
+        with open('./db.json') as f:
+            jsonData = json.load(f)
+
+        if jsonData["collections"].contains(collectionName):
+            jsonData["collections"].append(collectionName)
+            with open('./db.json', 'w') as outfile:
+                json.dump(jsonData, outfile)
+            return True
+        else:
+            return False
