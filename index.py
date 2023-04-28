@@ -16,7 +16,7 @@ ms = milvusController()
 @app.route("/")
 def status():
     return {
-        'status': 'Server is up and running.'
+        'status': 'Flask Server is up and running.'
     }
 
 @app.route("/upload", methods=["POST"])
@@ -37,13 +37,14 @@ def askQuestion():
 @app.route("/utilities", methods=["POST"])
 def utilities():
     cols = ms.getCollections()
-    schemaInfo = ms.getCollectionInfo(cols[0])
+    schemas = []
 
-    print(schemaInfo)
+    for col in cols:
+        schemas.append(ms.getCollectionInfo(col))
 
     return {
         'collections': cols,
-        'info': ms.getCollectionInfo(cols[0])
+        'info': schemas
     }
 
 if __name__ == '__main__':
