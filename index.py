@@ -1,3 +1,5 @@
+
+
 # Training Process
 # Input : PDF file
 # Spliting Strategy : Developer has a choice to split the pages as developer requirement
@@ -50,4 +52,7 @@ def hello_endpoint():
 
     Returns a simple message indicating that the backend is running properly.
     """
-    return "Backend is running properly"
+    return {
+        "message": "Backend is running properly",
+        "status": 200,
+    }

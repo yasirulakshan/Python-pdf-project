@@ -97,4 +97,7 @@ def ask_question(question):
     faiss_index = load_faiss_index("index")
     result = search_in_index(faiss_index, question)
     answer = generate_exact_answer(result, question)
-    return answer
+    return {
+        "answer": answer,
+        "status": 200,
+    }

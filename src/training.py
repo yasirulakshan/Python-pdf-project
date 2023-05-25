@@ -61,4 +61,7 @@ def train_and_save_index(file):
     faiss_index = create_faiss_index(pages)
     save_faiss_index(faiss_index, "index")
     os.remove(file)
-    return "Indexing Done"
+    return {
+        "message": "Training and indexing completed successfully",
+        "status": 200,
+    }
