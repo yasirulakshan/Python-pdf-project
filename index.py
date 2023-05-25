@@ -13,7 +13,7 @@ from src.consumer import askQuestion
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-
+# API for training the model with PDF file as input
 @app.route("/train", methods=["POST"])
 def pdfScan():
     file = request.files["file"]
@@ -21,7 +21,7 @@ def pdfScan():
     out = train(file.filename)
     return out
 
-
+# API for asking the question with question as input
 @app.route("/askQuestion", methods=["POST"])
 def ask():
     question = request.json["question"]
@@ -31,4 +31,4 @@ def ask():
 
 @app.route("/")
 def sayHello():
-    return "Hello World"
+    return "Backend is running properly"
