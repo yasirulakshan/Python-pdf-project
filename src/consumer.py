@@ -3,14 +3,31 @@ from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
 
 
-# Function for loading local saved Faiss index
-def loadIndex(path):
+def load_faiss_index(path):
+    """
+    Loads a FAISS index from a local file.
+
+    Parameters:
+        path (str): The path to the file containing the FAISS index.
+
+    Returns:
+        faiss_index: The loaded FAISS index.
+    """
     faiss_index = FAISS.load_local(path, OpenAIEmbeddings())
     return faiss_index
 
 
-# Function for searching the text in the index
-def searchText(faiss_index, question):
+def search_in_index(faiss_index, question):
+    """
+    Searches for relevant text in a FAISS index based on a given question.
+
+    Parameters:
+        faiss_index: The FAISS index to search in.
+        question (str): The question or query to search for.
+
+    Returns:
+        str: The concatenated text content from the relevant pages in the index.
+    """
     docs = faiss_index.similarity_search(question, k=2)
     results = ""
     for doc in docs:
@@ -18,10 +35,20 @@ def searchText(faiss_index, question):
     return results
 
 
-# This is the old version of getExactAnswer
+# Using gpt-3.5-turbo model for search
 
-# def getExactAnswer(result, question):
-#     prompt = """You are an AI assistant in a conversation with a human. \n Answer their questions as truthfully as possible using the provided text. If the answer is not contained within the text, say "I haven't that knowlege.". """ + \
+# def generate_exact_answer(result, question):
+#     """
+#     Generates an exact answer to a given question based on the provided text.
+
+#     Parameters:
+#         result (str): The text containing relevant information to generate the answer from.
+#         question (str): The question to generate an answer for.
+
+#     Returns:
+#         str: The generated exact answer to the question.
+#     """
+#     prompt = """You are an AI assistant in a conversation with a human. \n Answer their questions as truthfully as possible using the provided text. If the answer is not contained within the text, say "I haven't that knowledge.". """ + \
 #         result + "\n\n Q:" + question + "\n"
 #     answer = openai.Completion.create(
 #         prompt=prompt,
@@ -33,9 +60,18 @@ def searchText(faiss_index, question):
 #     return answer
 
 
-# Using gpt-3.5-turbo model for get answer
-def getExactAnswer(result, question):
-    prompt = """You are an AI assistant in a conversation with a human. \n Answer their questions as truthfully as possible using the provided text. If the answer is not contained within the text, say "I haven't that knowlege.". """ + \
+def generate_exact_answer(result, question):
+    """
+    Generates an exact answer to a given question based on the provided text.
+
+    Parameters:
+        result (str): The text containing relevant information to generate the answer from.
+        question (str): The question to generate an answer for.
+
+    Returns:
+        str: The generated exact answer to the question.
+    """
+    prompt = """You are an AI assistant in a conversation with a human. \n Answer their questions as truthfully as possible using the provided text. If the answer is not contained within the text, say "I haven't that knowledge.". """ + \
         result
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -48,8 +84,17 @@ def getExactAnswer(result, question):
     return completion.choices[0].message.content
 
 
-def askQuestion(question):
-    faiss_index = loadIndex("index")
-    result = searchText(faiss_index, question)
-    answer = getExactAnswer(result, question)
+def ask_question(question):
+    """
+    Asks a question and generates an exact answer using the loaded FAISS index.
+
+    Parameters:
+        question (str): The question to be asked.
+
+    Returns:
+        str: The generated exact answer to the question.
+    """
+    faiss_index = load_faiss_index("index")
+    result = search_in_index(faiss_index, question)
+    answer = generate_exact_answer(result, question)
     return answer
