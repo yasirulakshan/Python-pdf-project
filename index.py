@@ -6,29 +6,48 @@
 
 from flask import Flask, request
 from flask_cors import CORS
-from src.training import train
-from src.consumer import askQuestion
+from src.training import train_and_save_index
+from src.consumer import ask_question
 
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-# API for training the model with PDF file as input
+
 @app.route("/train", methods=["POST"])
-def pdfScan():
+def train_and_index_pdf():
+    """
+    Endpoint for training and indexing a PDF file.
+
+    Expects a PDF file in the request's "file" field.
+    Saves the file locally, performs training and indexing,
+    and returns the output message indicating the completion of the process.
+    """
     file = request.files["file"]
     file.save(file.filename)
-    out = train(file.filename)
+    out = train_and_save_index(file.filename)
     return out
 
-# API for asking the question with question as input
+
 @app.route("/askQuestion", methods=["POST"])
-def ask():
+def ask_question_endpoint():
+    """
+    Endpoint for asking a question and generating an answer.
+
+    Expects a JSON object in the request body with a "question" field.
+    Calls the ask_question function to generate an exact answer to the question,
+    and returns the generated answer as the response.
+    """
     question = request.json["question"]
-    out = askQuestion(question)
+    out = ask_question(question)
     return out
 
 
 @app.route("/")
-def sayHello():
+def hello_endpoint():
+    """
+    Endpoint for checking the backend's status.
+
+    Returns a simple message indicating that the backend is running properly.
+    """
     return "Backend is running properly"
