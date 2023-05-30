@@ -75,3 +75,27 @@ flask --app index run
 ## How to use the API
 
 ### Training API
+
+To train the model you need to send a POST request to the below endpoint.
+
+```
+http://<host>:<port>/train
+```
+
+**The request body should be a with file data. The file should be a PDF file.**
+
+### Ask Question API
+
+To ask question you need to send a POST request to the below endpoint.
+
+```
+http://<host>:<port>/askQuestion
+```
+
+**The request body should be a JSON with below format.**
+
+```
+{
+    "question": "What is the name of the company?"
+}
+```
